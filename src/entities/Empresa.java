@@ -17,23 +17,29 @@ public class Empresa {
 		return funcionarios;
 	}
 
+	public void setFuncionarios(ArrayList<Funcionario> funcionarios) {
+		this.funcionarios = funcionarios;
+	}
+
 	public ArrayList<Gerente> getGerentes() {
 		return gerentes;
 	}
 
+	public void setGerentes(ArrayList<Gerente> gerentes) {
+		this.gerentes = gerentes;
+	}
+
 	public void folhaPagamento() {
-		double sum = 0.0;
-		System.out.println("*** FOLHA DE PAGAMENTO MENSAL ***");
+		System.out.println("*** FOLHA DE PAGAMENTO ***");
+		System.out.println("*** FUNCIONARIOS ***");
 		for (Funcionario funcionario : funcionarios) {
-			System.out.printf("Nome: %s (Salário: R$%.2f)%n", funcionario.nome, funcionario.salario);
-			sum += funcionario.getSalario();
+			System.out.printf("Nome: %s - Salario: R$ %.2f%n", funcionario.getNome(), funcionario.getSalario());
 		}
+		System.out.println("*** GERENTES ***");
 		for (Gerente gerente : gerentes) {
-			System.out.printf("Nome: %s (Salário: R$%.2f) - (Custo total da equipe: R$ %.2f)%n", gerente.nome,
-					gerente.salario, gerente.custoEquipe());
-			sum += gerente.getSalario();
+			System.out.printf("Nome: %s - Salario: R$ %.2f - S.Equipe: R$ %.2f%n", gerente.getNome(),
+					gerente.getSalario(), gerente.custoEquipe());
 		}
-		System.out.printf("Custo mensal da empresa: R$ %.2f%n", sum);
 	}
 
 	public void contratarFuncionario() {
@@ -47,8 +53,9 @@ public class Empresa {
 	public Funcionario funcionarioMaisAntigo() {
 		Funcionario f = funcionarios.get(0);
 		for (Funcionario funcionario : funcionarios) {
-			if (funcionario.getDtContr().compara(f.getDtContr()) == -1)
+			if (f.getDtContr().compara(funcionario.getDtContr()) == 1) {
 				f = funcionario;
+			}
 		}
 		return f;
 	}
@@ -56,41 +63,28 @@ public class Empresa {
 	public Funcionario funcionarioMaisVelho() {
 		Funcionario f = funcionarios.get(0);
 		for (Funcionario funcionario : funcionarios) {
-			if (funcionario.getDtNasc().compara(f.getDtNasc()) == -1)
+			if (f.getDtNasc().compara(funcionario.getDtNasc()) == 1) {
 				f = funcionario;
+			}
 		}
 		return f;
 	}
 
 	private Funcionario localizarFuncionario(String cpf) {
-		for (Funcionario funcionario : funcionarios) {
-			if (funcionario.getCpf().equals(cpf))
-				return funcionario;
-		}
-		return null;
+		return funcionarios.stream().filter(x -> x.getCpf().equals(cpf)).findFirst().orElse(null);
 	}
-
+	
 	private Gerente localizarGerente(String cpf) {
-		for (Gerente gerente : gerentes) {
-			if (gerente.getCpf().equals(cpf))
-				return gerente;
-		}
-		return null;
+		return gerentes.stream().filter(x -> x.getCpf().equals(cpf)).findFirst().orElse(null);
 	}
-
+	
 	public void atribuirFuncGer() {
 		Scanner sc = new Scanner(System.in);
-		System.out.print("Informe o CPF do funcionário: ");
-		String cpfFunc = sc.nextLine();
-		System.out.print("Informe o CPF do gerente: ");
-		String cpfGer = sc.nextLine();
-		Funcionario f = this.localizarFuncionario(cpfFunc);
-		Gerente g = this.localizarGerente(cpfGer);
-		if (g != null && f != null) {
-			g.inserirFuncEquipe(f);
-			System.out.println("Funcionário adicionado a equipe!");
-		} else {
-			System.out.println("Funcionário não adicionado a equipe!");
-		}
+		System.out.print("Informe o cpf do funcionário: ");
+		Funcionario f = localizarFuncionario(sc.nextLine());
+		System.out.print("Informe o cpf do gerente: ");
+		Gerente g = localizarGerente(sc.nextLine());
+		g.inserirFuncEquipe(f);
 	}
+
 }

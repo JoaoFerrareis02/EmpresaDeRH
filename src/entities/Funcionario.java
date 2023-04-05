@@ -14,13 +14,13 @@ public class Funcionario {
 		Scanner sc = new Scanner(System.in);
 		System.out.print("Informe o nome: ");
 		this.nome = sc.nextLine();
-		System.out.print("Informe o CPF: ");
+		System.out.print("Informe o cpf: ");
 		this.cpf = sc.nextLine();
-		System.out.print("Informe o salário: ");
+		System.out.print("Informe o salario:  ");
 		this.salario = sc.nextDouble();
 		System.out.println("Informe a data de nascimento:");
 		this.dtNasc = new Data();
-		System.out.println("Informe a data de contratação:");
+		System.out.println("Informe a data de contratacao:");
 		this.dtContr = new Data();
 	}
 
@@ -65,10 +65,11 @@ public class Funcionario {
 	}
 
 	public void listarDados() {
+		System.out.println("*** DADOS DO FUNCIONARIO ***");
 		System.out.printf("Nome: %s (CPF: %s)%n", this.nome, this.cpf);
-		System.out.printf("Salário: R$%.2f%n", this.salario);
-		System.out.printf("Data de nascimento: %d/%d/%d%n", this.dtNasc.getDia(), this.dtNasc.getMes(),
-				this.dtNasc.getAno());
+		System.out.printf("Salario: R$ %.2f%n", this.salario);
+		System.out.printf("Data de nascimento: %s%n", this.dtNasc);
+		System.out.printf("Data de contratacao: %s%n", this.dtContr);
 	}
 
 }

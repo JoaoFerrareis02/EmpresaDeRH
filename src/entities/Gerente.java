@@ -7,11 +7,11 @@ public class Gerente extends Funcionario {
 
 	private String senha;
 	private ArrayList<Funcionario> equipe;
-	
+
 	public Gerente() {
 		super();
 		Scanner sc = new Scanner(System.in);
-		System.out.print("Informe a senha: ");
+		System.out.println("Informe a senha: ");
 		this.senha = sc.nextLine();
 		this.equipe = new ArrayList<>();
 	}
@@ -27,49 +27,50 @@ public class Gerente extends Funcionario {
 	public ArrayList<Funcionario> getEquipe() {
 		return equipe;
 	}
-	
+
+	public void setEquipe(ArrayList<Funcionario> equipe) {
+		this.equipe = equipe;
+	}
+
 	public boolean validarAcesso() {
 		Scanner sc = new Scanner(System.in);
-		System.out.print("Informe a senha para validação: ");
+		System.out.println("Informe a senha atual: ");
 		String s = sc.nextLine();
-		return this.senha.equals(s);
-	} 
-	
+		return s.equals(this.senha);
+	}
+
 	public void alterarSenha() {
-		Scanner sc = new Scanner(System.in);
-		if(this.validarAcesso()) {
-			System.out.print("Informe a nova senha: ");
+		if (this.validarAcesso()) {
+			Scanner sc = new Scanner(System.in);
+			System.out.println("Informe a senha nova: ");
 			String s = sc.nextLine();
 			this.setSenha(s);
-		}else {
-			System.out.println("A senha informada está incorreta.");
 		}
 	}
-	
+
 	public double custoEquipe() {
-		double sum = 0.0;
+		double sum = this.salario;
 		for (Funcionario funcionario : equipe) {
 			sum += funcionario.getSalario();
 		}
-		sum += this.salario;
 		return sum;
 	}
-	
+
 	public void listarEquipe() {
-		System.out.println("Gerente : "+ this.nome);
-		System.out.println("Equipe:");
+		System.out.println(this.nome);
 		for (Funcionario funcionario : equipe) {
 			System.out.println(funcionario.getNome());
 		}
 	}
-	
+
 	public void inserirFuncEquipe(Funcionario f) {
 		this.equipe.add(f);
 	}
-	
+
+	@Override
 	public void listarDados() {
-		System.out.println("*** GERENTE ***");
 		super.listarDados();
+		System.out.println("Funcao: Gerente");
 	}
-	
+
 }
